@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Input from "../../shared/components/UIElements/Input";
 import Grid from "@mui/material/Grid";
@@ -7,6 +7,12 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/valida
 import Button from "@mui/material/Button";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useForm } from "../../shared/hooks/form-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
+import ErrorAlert from "../../shared/components/UIElements/ErrorAlert";
+import { LoadingSpinner } from "../../shared/components/UIElements/LoadingSpinner";
+import { useHistory } from "react-router-dom";
+import ImageUpload from "../../shared/components/UIElements/ImageUpload";
 const theme = createTheme({
   palette: {
     primary: {
@@ -26,12 +32,29 @@ const NewPlaces = () => {
     false
   );
 
-  const formSubmitHandler = (event) => {
+  const user = useContext(AuthContext);
+  const history = useHistory();
+  const { error, isLoading, sendRequest, setError } = useHttpClient();
+
+  const formSubmitHandler = async (event) => {
     event.preventDefault();
+
+    try {
+      const formData = new FormData();
+      formData.append("title", formState.inputs.title.value);
+      formData.append("address", formState.inputs.address.value);
+      formData.append("description", formState.inputs.description.value);
+      formData.append("image", formState.inputs.image.value);
+      await sendRequest("http://localhost:5000/api/places/", "POST", formData, {
+        Authorization: `Bearer ${user.token}`,
+      });
+      history.push("/");
+    } catch (err) {}
   };
 
   return (
     <ThemeProvider theme={theme}>
+      {isLoading && <LoadingSpinner />}
       <Grid container direction="row" justifyContent="center" alignItems="center">
         <Grid item xs={10}>
           <Paper
@@ -43,6 +66,14 @@ const NewPlaces = () => {
               backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff"),
             }}
           >
+            {error && (
+              <ErrorAlert
+                open={error}
+                setOpen={() => {
+                  setError(false);
+                }}
+              />
+            )}
             <Box
               component="form"
               sx={{
@@ -52,6 +83,7 @@ const NewPlaces = () => {
               autoComplete="off"
               onSubmit={formSubmitHandler}
             >
+              <ImageUpload id="image" onInput={inputHandler} />
               <Input
                 id="title"
                 label="Title"

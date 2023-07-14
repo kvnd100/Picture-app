@@ -25,7 +25,11 @@ const UserItem = (props) => {
       >
         <CardContent>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Avatar alt={props.name} src={props.image} sx={{ width: 64, height: 64 }} />
+            <Avatar
+              alt={props.name}
+              src={`http://localhost:5000/${props.image}`}
+              sx={{ width: 64, height: 64 }}
+            />
             <Box sx={{ display: "flex", flexDirection: "column", ml: "1rem" }}>
               <Typography className={Classes.text} sx={{ fontSize: 21, color: "#FFAA33" }}>
                 {props.name}

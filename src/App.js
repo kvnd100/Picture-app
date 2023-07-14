@@ -7,22 +7,14 @@ import UserPlaces from "./places/pages/UserPlaces";
 import UpdatePlaces from "./places/pages/UpdatePlaces";
 import Auth from "./users/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
-import React, { useState, useCallback } from "react";
+import React from "react";
+import { useAuth } from "./shared/hooks/auth-hook";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-  }, []);
-
+  const { token, login, logout, userId } = useAuth();
   let routes;
 
-  if (!isLoggedIn) {
+  if (!token) {
     routes = (
       <Switch>
         <Route path="/" exact>
@@ -58,7 +50,9 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}>
+    <AuthContext.Provider
+      value={{ token: token, isLoggedIn: !!token, userId: userId, login: login, logout: logout }}
+    >
       <CssBaseline />
       <Router>
         <MainHeader />

@@ -38,7 +38,7 @@ function MainHeader(props) {
         <NavLink
           activeClassName={Classes.activenavlink}
           className={Classes.navlink}
-          to="/u1/places"
+          to={`/${auth.userId}/places`}
         >
           My Places
         </NavLink>,

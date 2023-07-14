@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserList from "../components/UserList";
 import Grid from "@mui/material/Grid";
+import { LoadingSpinner } from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorAlert from "../../shared/components/UIElements/ErrorAlert";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+
 const Users = () => {
-  const USERS = [
-    {
-      id: "u1",
-      name: "Test User",
-      image:
-        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-      places: 2,
-    },
-    {
-      id: "u2",
-      name: "Test User",
-      image:
-        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-      places: 2,
-    },
-  ];
+  const [loadedUsers, setLoadedUsers] = useState(null);
+  const { isLoading, error, sendRequest, setError } = useHttpClient();
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const responseData = await sendRequest("http://localhost:5000/api/users/");
+        setLoadedUsers(responseData.users);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <Grid container>
-      <div>
-        <UserList items={USERS} />
-      </div>
-    </Grid>
+    <>
+      {error && (
+        <ErrorAlert
+          severity={"info"}
+          open={error}
+          setOpen={() => {
+            setError(null);
+          }}
+        />
+      )}
+      <Grid sx={{ ml: "4rem" }} container>
+        {isLoading && <LoadingSpinner />}
+        <div>{loadedUsers && <UserList items={loadedUsers} />}</div>
+      </Grid>
+    </>
   );
 };
 

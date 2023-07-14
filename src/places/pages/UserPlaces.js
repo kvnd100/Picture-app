@@ -1,157 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PlaceList from "../components/PlaceList";
 import Grid from "@mui/material/Grid";
 import { useParams } from "react-router-dom";
-const DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40.7484405, lng: -73.9878584 },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u2",
-  },
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u2",
-  },
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u2",
-  },
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u2",
-  },
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u2",
-  },
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u2",
-  },
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u1",
-  },
-  {
-    id: "p2",
-    title: "Empire State Building",
-    description: "This is the place description",
-    imageUrl:
-      "https://lh3.googleusercontent.com/p/AF1QipNVlM5lo7fIJrmvjN4EOrTMiQjDgDyTfw7ATdV6=s680-w680-h510",
-    address: "20 W 34th St, New York, NY 10001",
-    location: { lat: 40, lng: -73 },
-    creator: "u2",
-  },
-];
-
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import ErrorAlert from "../../shared/components/UIElements/ErrorAlert";
+import { LoadingSpinner } from "../../shared/components/UIElements/LoadingSpinner";
 const UserPlaces = () => {
   const userId = useParams().userId;
-  const loadedPlaces = DUMMY_PLACES.filter((places) => places.creator === userId);
+  const { error, isLoading, sendRequest, setError } = useHttpClient();
+  const [places, setPlaces] = useState();
+
+  const placeDeleteHandler = (deletedPlaceId) => {
+    console.log("deleted");
+    setPlaces((prev) => prev.filter((place) => place.id !== deletedPlaceId));
+  };
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const responseData = await sendRequest(`http://localhost:5000/api/places/user/${userId}`);
+        setPlaces(responseData.places);
+      } catch (err) {}
+    };
+
+    fetchPlaces();
+  }, [sendRequest, setPlaces, userId]);
+
   return (
-    <Grid container>
-      <PlaceList items={loadedPlaces} />
-    </Grid>
+    <>
+      <ErrorAlert
+        open={error}
+        setOpen={() => {
+          setError(null);
+        }}
+      />
+      <Grid container>
+        {isLoading && <LoadingSpinner />}
+
+        <PlaceList onDeletePlace={placeDeleteHandler} items={places} />
+      </Grid>
+    </>
   );
 };
 

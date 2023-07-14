@@ -33,15 +33,15 @@ const UserList = (props) => {
   }
 
   return (
-    <ul>
+    <ul style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", padding: "0rem" }}>
       {props.items.map((val) => (
-        <Link to={`/${val.id}/places`} style={{ textDecoration: "none" }}>
+        <Link to={`/${val.id}/places`} style={{ textDecoration: "none", padding: "1rem" }}>
           <UserItem
             key={val.id}
             id={val.id}
             image={val.image}
-            name={val.name}
-            placeCount={val.places}
+            name={val.username}
+            placeCount={val.places.length}
           />
         </Link>
       ))}

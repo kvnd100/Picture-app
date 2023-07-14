@@ -2,8 +2,9 @@ import React from "react";
 import PlaceItem from "./PlaceItem";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+
 const PlaceList = (props) => {
-  if (props.items.length === 0) {
+  if (!props.items || props.items.length === 0) {
     return (
       <>
         <Grid container direction="row" justifyContent="center" alignItems="center">
@@ -28,12 +29,13 @@ const PlaceList = (props) => {
         <PlaceItem
           key={place.id}
           id={place.id}
-          image={place.imageUrl}
+          image={place.image}
           title={place.title}
           description={place.description}
           address={place.address}
           creatorId={place.creator}
           coordinates={place.location}
+          onDelete={props.onDeletePlace}
         />
       ))}
     </Grid>

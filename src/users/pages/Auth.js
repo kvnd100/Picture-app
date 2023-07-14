@@ -10,9 +10,13 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import Button from "@mui/material/Button";
+import ImageUpload from "../../shared/components/UIElements/ImageUpload";
 import { useForm } from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import LinearProgress from "@mui/material/LinearProgress";
+import { LoadingSpinner } from "../../shared/components/UIElements/LoadingSpinner";
+import ErrorAlert from "../../shared/components/UIElements/ErrorAlert";
+
+import { useHttpClient } from "../../shared/hooks/http-hook";
 const theme = createTheme({
   palette: {
     primary: {
@@ -30,56 +34,78 @@ const Auth = () => {
     false
   );
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
   const [isLoginMode, setIsLoginMode] = useState(true);
-
+  const { isLoading, error, sendRequest, setError } = useHttpClient();
   const auth = useContext(AuthContext);
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
-    if (isLoginMode) {
-    } else {
-      try {
-        setIsLoading(true) && <LinearProgress color="success" />;
 
-        const response = await fetch("http://localhost:5000/api/users/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: formState.inputs.name.value,
+    if (isLoginMode) {
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/users/login",
+          "POST",
+          JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           }),
-        });
+          {
+            "Content-Type": "application/json",
+          }
+        );
+        auth.login(responseData.userId, responseData.token);
+      } catch (err) {}
+    } else {
+      try {
+        const formData = new FormData();
+        formData.append("email", formState.inputs.email.value);
+        formData.append("username", formState.inputs.name.value);
+        formData.append("password", formState.inputs.password.value);
+        formData.append("image", formState.inputs.image.value);
 
-        const responseData = await response.json();
-        console.log(responseData);
-      } catch (err) {
-        console.log(err);
-        setError(err.message || "Something went wrong, please try again later.");
-      }
-      setIsLoading(false);
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/users/signup",
+          "POST",
+          formData
+        );
+        auth.login(responseData.userId, responseData.token);
+      } catch (err) {}
     }
-    auth.login();
   };
 
   const switchModeHandler = () => {
     if (!isLoginMode) {
       setFormData(
-        { ...formState.inputs, name: undefined },
+        { ...formState.inputs, name: undefined, image: undefined },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
-      setFormData({ ...formState.inputs, name: { value: "", isValid: false } }, false);
+      setFormData(
+        {
+          ...formState.inputs,
+          name: { value: "", isValid: false },
+          image: {
+            value: null,
+            isValid: false,
+          },
+        },
+        false
+      );
     }
     setIsLoginMode((prevMode) => !prevMode);
   };
-
   return (
     <ThemeProvider theme={theme}>
+      {isLoading && <LoadingSpinner />}
+      {error && (
+        <ErrorAlert
+          open={error}
+          setOpen={() => {
+            setError(null);
+          }}
+        />
+      )}
       <Grid container direction="row" justifyContent="center" alignItems="center">
         <Grid item xs={10}>
           <Paper
@@ -105,13 +131,16 @@ const Auth = () => {
               </h1>
 
               {!isLoginMode ? (
-                <Input
-                  id="name"
-                  label="Name"
-                  validators={[VALIDATOR_REQUIRE()]}
-                  error={"This field should not be empty."}
-                  onInput={inputHandler}
-                />
+                <>
+                  <ImageUpload id="image" onInput={inputHandler} />
+                  <Input
+                    id="name"
+                    label="Name"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    error={"This field should not be empty."}
+                    onInput={inputHandler}
+                  />
+                </>
               ) : null}
               <Input
                 id="email"
@@ -123,8 +152,8 @@ const Auth = () => {
               <Input
                 id="password"
                 label="Password"
-                validators={[VALIDATOR_MINLENGTH(5)]}
-                error={"Please enter a valid password, atleast 5 characters."}
+                validators={[VALIDATOR_MINLENGTH(6)]}
+                error={"Please enter a valid password, atleast 6 characters."}
                 onInput={inputHandler}
               />
               <Grid item>

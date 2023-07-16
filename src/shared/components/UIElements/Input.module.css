@@ -1,0 +1,5 @@
+.input::after{
+    border-bottom: 2px solid #F7AA33 !important;
+    color:red;
+
+}

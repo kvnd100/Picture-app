@@ -1,0 +1,14 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Marck+Script&display=swap');
+.navlink{
+    color:#fff !important;
+    text-decoration:none !important;
+}
+.activenavlink{
+    color:#000 !important;
+}
+
+.navtitle{
+    font-family: 'Marck Script', cursive;
+    font-size: 32px;
+}

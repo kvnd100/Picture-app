@@ -27,7 +27,7 @@ const UserItem = (props) => {
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Avatar
               alt={props.name}
-              src={`http://localhost:5000/${props.image}`}
+              src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`}
               sx={{ width: 64, height: 64 }}
             />
             <Box sx={{ display: "flex", flexDirection: "column", ml: "1rem" }}>

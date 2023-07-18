@@ -28,6 +28,10 @@ const NewPlaces = () => {
       title: { value: "", isValid: false },
       description: { value: "", isValid: false },
       address: { value: "", isValid: false },
+      image: {
+        value: null,
+        isValid: false,
+      },
     },
     false
   );
@@ -35,7 +39,6 @@ const NewPlaces = () => {
   const user = useContext(AuthContext);
   const history = useHistory();
   const { error, isLoading, sendRequest, setError } = useHttpClient();
-
   const formSubmitHandler = async (event) => {
     event.preventDefault();
 
@@ -45,9 +48,10 @@ const NewPlaces = () => {
       formData.append("address", formState.inputs.address.value);
       formData.append("description", formState.inputs.description.value);
       formData.append("image", formState.inputs.image.value);
-      await sendRequest("http://localhost:5000/api/places/", "POST", formData, {
+      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/places/`, "POST", formData, {
         Authorization: `Bearer ${user.token}`,
       });
+
       history.push("/");
     } catch (err) {}
   };

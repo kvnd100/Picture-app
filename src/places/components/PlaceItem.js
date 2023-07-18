@@ -30,7 +30,7 @@ const PlaceItem = (props) => {
   const confirmDeleteModalHandler = async () => {
     setShowDeleteModal(false);
     try {
-      await sendRequest(`http://localhost:5000/api/places/${props.id}`, "DELETE", null, {
+      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/places/${props.id}`, "DELETE", null, {
         Authorization: `Bearer ${auth.token}`,
       });
       props.onDelete(props.id);
@@ -53,7 +53,7 @@ const PlaceItem = (props) => {
           <CardMedia
             component="img"
             style={{ height: "auto" }}
-            image={`http://localhost:5000/${props.image}`}
+            image={`${process.env.REACT_APP_ASSET_URL}/${props.image}`}
             alt={props.title}
           />
           <CardContent>

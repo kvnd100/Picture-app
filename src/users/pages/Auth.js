@@ -15,7 +15,6 @@ import { useForm } from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import { LoadingSpinner } from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorAlert from "../../shared/components/UIElements/ErrorAlert";
-
 import { useHttpClient } from "../../shared/hooks/http-hook";
 const theme = createTheme({
   palette: {
@@ -44,7 +43,7 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/api/users/login",
+          process.env.REACT_APP_BACKEND_URL + "/users/login",
           "POST",
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -64,12 +63,9 @@ const Auth = () => {
         formData.append("password", formState.inputs.password.value);
         formData.append("image", formState.inputs.image.value);
 
-        const responseData = await sendRequest(
-          "http://localhost:5000/api/users/signup",
-          "POST",
-          formData
-        );
-        auth.login(responseData.userId, responseData.token);
+        await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, "POST", formData);
+
+        switchModeHandler();
       } catch (err) {}
     }
   };

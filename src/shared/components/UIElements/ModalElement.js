@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 import Modal from "@mui/material/Modal";
 
 const ModalElement = (props) => {

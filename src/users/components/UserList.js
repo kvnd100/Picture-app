@@ -2,7 +2,7 @@ import React from "react";
 import UserItem from "./UserItem";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Classes from "./UserItem.module.css";
 import { Link } from "react-router-dom";

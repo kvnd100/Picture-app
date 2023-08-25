@@ -11,7 +11,6 @@ const UserPlaces = () => {
   const [places, setPlaces] = useState();
 
   const placeDeleteHandler = (deletedPlaceId) => {
-    console.log("deleted");
     setPlaces((prev) => prev.filter((place) => place.id !== deletedPlaceId));
   };
 

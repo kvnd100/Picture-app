@@ -11,7 +11,8 @@ const NewPlaces = React.lazy(() => import("./places/pages/NewPlaces"));
 const UserPlaces = React.lazy(() => import("./places/pages/UserPlaces"));
 const UpdatePlaces = React.lazy(() => import("./places/pages/UpdatePlaces"));
 const Auth = React.lazy(() => import("./users/pages/Auth"));
-
+const Calendar = React.lazy(() => import("./calendar/components/calendar"));
+const NewEvents = React.lazy(() => import("./calendar/components/AddEvents"));
 function App() {
   const { token, login, logout, userId } = useAuth();
   let routes;
@@ -43,8 +44,14 @@ function App() {
         <Route path="/places/new" exact>
           <NewPlaces />
         </Route>
+        <Route path="/events/new" exact>
+          <NewEvents />
+        </Route>
         <Route path="/places/:placeId" exact>
           <UpdatePlaces />
+        </Route>
+        <Route path="/calendar/:userId" exact>
+          <Calendar />
         </Route>
         <Redirect to="/" />
       </Switch>
@@ -56,6 +63,7 @@ function App() {
       value={{ token: token, isLoggedIn: !!token, userId: userId, login: login, logout: logout }}
     >
       <CssBaseline />
+
       <Router>
         <MainHeader />
         <Suspense

@@ -12,12 +12,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { NavLink, Link } from "react-router-dom";
 import Classes from "./MainHeader.module.css";
 import { AuthContext } from "../../context/auth-context";
 import { useContext } from "react";
+
 const drawerWidth = 240;
 
 function MainHeader(props) {
@@ -48,6 +49,21 @@ function MainHeader(props) {
           to="/places/new"
         >
           Add Places
+        </NavLink>,
+        <NavLink
+          activeClassName={Classes.activenavlink}
+          className={Classes.navlink}
+          to="/events/new"
+        >
+          Add Events
+        </NavLink>,
+
+        <NavLink
+          activeClassName={Classes.activenavlink}
+          className={Classes.navlink}
+          to={`/calendar/${auth.userId}`}
+        >
+          Calendar
         </NavLink>,
         <NavLink activeClassName={Classes.activenavlink} className={Classes.navlink} to="/auth">
           <Button

@@ -1,0 +1,164 @@
+.paper-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.month {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: rgb(255, 170, 51);
+  border-bottom: 1px solid #000;
+  color: #444;
+  font-size: 18px;
+  font-weight: bold;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgb(255, 170, 51);
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  background-color: #fff;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8vh;
+  font-size: 14px;
+  color: #000;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-left: none;
+}
+
+.weekend {
+  background-color: rgb(255, 170, 51);
+}
+
+.current-day {
+  background-color: rgb(255, 170, 51);
+  color: #000;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-bottom: none;
+}
+
+.empty-cell {
+  border: none;
+}
+.prev-month-day,
+.next-month-day {
+  color: #ccc;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-left: none;
+}
+
+
+.upcoming-events {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+
+  overflow-y: auto;
+  max-width: 100%; 
+  flex-grow: 1;
+}
+
+.upcoming-events-border{
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+.upcoming-events h3 {
+  margin: 0;
+  padding-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  flex-grow: 1;
+  max-height: 600px;
+}
+
+.upcoming-events ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.upcoming-events li {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.event-date {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+  color: rgb(255, 170, 51);
+}
+
+.event-title {
+  font-size: 16px;
+  color: #444;
+  max-width: 200px; 
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.calendar-container {
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr;
+}
+
+.calendar-content{
+  flex-grow:1;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+
+.selected-day {
+  background-color: lightblue;
+}
+
+.select-button {
+  margin-top: 4px;
+  margin-left:1rem;
+  font-size: 12px;
+}

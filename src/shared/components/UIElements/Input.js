@@ -31,9 +31,9 @@ const inputFunction = (state, action) => {
 
 const Input = (props) => {
   const [inputReducerState, dispatch] = useReducer(inputFunction, {
-    value: props.initialValue || "",
+    value: props.value || "",
     isTouch: false,
-    isValid: props.initialIsValid || false,
+    isValid: props.id === "date" ? !!props.value : props.initialIsValid || false,
   });
 
   const changeHandler = (event) => {
@@ -51,37 +51,22 @@ const Input = (props) => {
     onInput(id, value, isValid);
   }, [isValid, value, id, onInput]);
 
-  if (props.type === "textarea") {
-    return (
-      <ThemeProvider theme={theme}>
-        <TextField
-          id="standard-basic"
-          label={props.label}
-          color="primary"
-          variant="standard"
-          onChange={changeHandler}
-          onBlur={touchHandler}
-          value={inputReducerState.value}
-          error={!inputReducerState.isValid && inputReducerState.isTouch}
-          helperText={!inputReducerState.isValid && inputReducerState.isTouch ? props.error : null}
-          multiline
-          maxRows={4}
-        />
-      </ThemeProvider>
-    );
-  }
   return (
     <ThemeProvider theme={theme}>
       <TextField
-        id="standard-basic"
+        id={id}
         label={props.label}
         color="primary"
         variant="standard"
+        type={props.type}
         onChange={changeHandler}
         onBlur={touchHandler}
-        value={inputReducerState.value}
-        error={!inputReducerState.isValid && inputReducerState.isTouch}
-        helperText={!inputReducerState.isValid && inputReducerState.isTouch ? props.error : null}
+        value={value}
+        error={!isValid && inputReducerState.isTouch}
+        helperText={!isValid && inputReducerState.isTouch ? props.error : null}
+        InputLabelProps={props.type === "date" || props.type === "time" ? { shrink: true } : {}}
+        multiline={props.type === "textarea"}
+        maxRows={4}
       />
     </ThemeProvider>
   );

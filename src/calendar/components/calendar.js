@@ -52,7 +52,6 @@ const Calendar = () => {
   const [value, setValue] = useState(null);
   const { messages, sendMessage, loading } = useChat([], userId);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  console.log(messages);
   useEffect(() => {
     const fetchEvents = async () => {
       try {

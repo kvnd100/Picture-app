@@ -92,7 +92,12 @@ const PlaceItem = (props) => {
           )}
         </CardActions>
       </Card>
-      <ModalElement open={open} setOpen={setOpen} title={props.title}>
+      <ModalElement
+        open={open}
+        setOpen={setOpen}
+        title={props.title}
+        description={props.description}
+      >
         <div>
           <Map center={props.coordinates} zoom={16} />
         </div>

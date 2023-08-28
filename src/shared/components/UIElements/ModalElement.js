@@ -15,7 +15,6 @@ const ModalElement = (props) => {
     boxShadow: 24,
     p: 4,
   };
-
   return (
     <Modal
       open={props.open}
@@ -29,9 +28,7 @@ const ModalElement = (props) => {
         </Typography>
         {props.type ? null : props.children}
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {props.description
-            ? props.description
-            : "Duis mollis, est non commodo luctus, nisi erat porttitor ligula."}
+          {props.description ? props.description : ""}
         </Typography>
         {props.type ? props.children : null}
       </Box>

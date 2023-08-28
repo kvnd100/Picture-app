@@ -46,7 +46,6 @@ const AddEvent = () => {
     },
     !!formattedDate
   );
-  console.log(formState);
 
   const user = useContext(AuthContext);
   const history = useHistory();
@@ -152,7 +151,7 @@ const AddEvent = () => {
               />
               <Input
                 id="address"
-                label="Address (Optional)"
+                label="Address"
                 validators={[]}
                 onInput={inputHandler}
                 error={"Please enter a valid address."}

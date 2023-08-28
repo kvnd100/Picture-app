@@ -65,6 +65,14 @@ function MainHeader(props) {
         >
           Calendar
         </NavLink>,
+        <a
+          className={Classes.navlink}
+          href="https://docs.google.com/forms/d/e/1FAIpQLSf7vTAybEdHYVH-QRCtykhIMfFq0f1H4R7RnWsSHilgqwCx5A/viewform"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Feedback
+        </a>,
         <NavLink activeClassName={Classes.activenavlink} className={Classes.navlink} to="/auth">
           <Button
             color="inherit"
@@ -93,7 +101,7 @@ function MainHeader(props) {
     >
       <Typography variant="h6" sx={{ my: 2 }}>
         <Link className={`${Classes.navlink} ${Classes.navtitle}`} to="/">
-          Placebo
+          Calendor
         </Link>
       </Typography>
       <Divider />
@@ -135,7 +143,7 @@ function MainHeader(props) {
               style={{ paddingLeft: "1.5rem" }}
               to="/"
             >
-              Placebo
+              Calendor
             </Link>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
